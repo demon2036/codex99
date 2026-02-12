@@ -1,0 +1,547 @@
+[plugin]
+id = "ohlike"
+default_agent_role = "atlas-normal"
+
+[ui]
+tab_picker_roles = [
+  "shepherd-fast",
+  "shepherd-normal",
+  "shepherd-heavy",
+  "atlas-fast",
+  "atlas-normal",
+  "atlas-heavy",
+  "sisyphus-fast",
+  "sisyphus-normal",
+  "sisyphus-heavy",
+  "prometheus-fast",
+  "prometheus-normal",
+  "prometheus-heavy",
+  "sisyphus-junior-fast",
+  "sisyphus-junior-normal",
+  "sisyphus-junior-heavy",
+  "metis-fast",
+  "metis-normal",
+  "metis-heavy",
+  "momus-fast",
+  "momus-normal",
+  "momus-heavy",
+  "oracle-fast",
+  "oracle-normal",
+  "oracle-heavy",
+  "ruler-fast",
+  "ruler-normal",
+  "ruler-heavy",
+  "librarian-fast",
+  "librarian-normal",
+  "librarian-heavy",
+  "explore-fast",
+  "explore-normal",
+  "explore-heavy",
+  "multimodal-looker-fast",
+  "multimodal-looker-normal",
+  "multimodal-looker-heavy",
+]
+agent_config_callers = [
+  "shepherd-fast",
+  "shepherd-normal",
+  "shepherd-heavy",
+  "atlas-fast",
+  "atlas-normal",
+  "atlas-heavy",
+  "sisyphus-fast",
+  "sisyphus-normal",
+  "sisyphus-heavy",
+  "sisyphus-junior-fast",
+  "sisyphus-junior-normal",
+  "sisyphus-junior-heavy",
+]
+agent_config_targets = [
+  "atlas-fast",
+  "atlas-normal",
+  "atlas-heavy",
+  "sisyphus-junior-fast",
+  "sisyphus-junior-normal",
+  "sisyphus-junior-heavy",
+  "metis-fast",
+  "metis-normal",
+  "metis-heavy",
+  "momus-fast",
+  "momus-normal",
+  "momus-heavy",
+  "oracle-fast",
+  "oracle-normal",
+  "oracle-heavy",
+  "ruler-fast",
+  "ruler-normal",
+  "ruler-heavy",
+  "librarian-fast",
+  "librarian-normal",
+  "librarian-heavy",
+  "explore-fast",
+  "explore-normal",
+  "explore-heavy",
+  "multimodal-looker-fast",
+  "multimodal-looker-normal",
+  "multimodal-looker-heavy",
+]
+
+[spawn_defaults.allow]
+shepherd-fast = ["atlas-fast"]
+shepherd-normal = ["atlas-normal"]
+shepherd-heavy = ["atlas-heavy"]
+
+atlas-fast = [
+  "sisyphus-junior-fast",
+  "metis-fast",
+  "momus-fast",
+  "oracle-fast",
+  "ruler-fast",
+  "librarian-fast",
+  "explore-fast",
+  "multimodal-looker-fast",
+]
+atlas-normal = [
+  "sisyphus-junior-normal",
+  "metis-normal",
+  "momus-normal",
+  "oracle-normal",
+  "ruler-normal",
+  "librarian-normal",
+  "explore-normal",
+  "multimodal-looker-normal",
+]
+atlas-heavy = [
+  "sisyphus-junior-heavy",
+  "metis-heavy",
+  "momus-heavy",
+  "oracle-heavy",
+  "ruler-heavy",
+  "librarian-heavy",
+  "explore-heavy",
+  "multimodal-looker-heavy",
+]
+sisyphus-fast = [
+  "sisyphus-junior-fast",
+  "metis-fast",
+  "momus-fast",
+  "oracle-fast",
+  "ruler-fast",
+  "librarian-fast",
+  "explore-fast",
+  "multimodal-looker-fast",
+]
+sisyphus-normal = [
+  "sisyphus-junior-normal",
+  "metis-normal",
+  "momus-normal",
+  "oracle-normal",
+  "ruler-normal",
+  "librarian-normal",
+  "explore-normal",
+  "multimodal-looker-normal",
+]
+sisyphus-heavy = [
+  "sisyphus-junior-heavy",
+  "metis-heavy",
+  "momus-heavy",
+  "oracle-heavy",
+  "ruler-heavy",
+  "librarian-heavy",
+  "explore-heavy",
+  "multimodal-looker-heavy",
+]
+sisyphus-junior-fast = ["explore-fast", "librarian-fast", "multimodal-looker-fast"]
+sisyphus-junior-normal = ["explore-normal", "librarian-normal", "multimodal-looker-normal"]
+sisyphus-junior-heavy = ["explore-heavy", "librarian-heavy", "multimodal-looker-heavy"]
+
+[roles.atlas-fast]
+kind = "spawnable"
+label = "atlas (fast)"
+description = "Master orchestrator. Delegates tasks, verifies results, does not implement code directly."
+prompt_file = "roles/atlas/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = true
+
+[roles.shepherd-fast]
+kind = "primary"
+label = "shepherd (fast)"
+description = "Pass@k race orchestrator. Delegates only to atlas and performs acceptance."
+prompt_file = "roles/shepherd/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = true
+
+[roles.shepherd-normal]
+kind = "primary"
+label = "shepherd (normal)"
+description = "Pass@k race orchestrator. Delegates only to atlas and performs acceptance."
+prompt_file = "roles/shepherd/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = true
+
+[roles.shepherd-heavy]
+kind = "primary"
+label = "shepherd (heavy)"
+description = "Pass@k race orchestrator. Delegates only to atlas and performs acceptance."
+prompt_file = "roles/shepherd/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = true
+
+[roles.atlas-normal]
+kind = "spawnable"
+label = "atlas (normal)"
+description = "Master orchestrator. Delegates tasks, verifies results, does not implement code directly."
+prompt_file = "roles/atlas/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = true
+
+[roles.atlas-heavy]
+kind = "spawnable"
+label = "atlas (heavy)"
+description = "Master orchestrator. Delegates tasks, verifies results, does not implement code directly."
+prompt_file = "roles/atlas/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = true
+
+[roles.sisyphus-fast]
+kind = "primary"
+label = "sisyphus (fast)"
+description = "Oh-My-style orchestration agent (delegates; verifies; can implement when needed)."
+prompt_file = "roles/sisyphus/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = false
+allows_collab_tools = true
+
+[roles.sisyphus-normal]
+kind = "primary"
+label = "sisyphus (normal)"
+description = "Oh-My-style orchestration agent (delegates; verifies; can implement when needed)."
+prompt_file = "roles/sisyphus/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = false
+allows_collab_tools = true
+
+[roles.sisyphus-heavy]
+kind = "primary"
+label = "sisyphus (heavy)"
+description = "Oh-My-style orchestration agent (delegates; verifies; can implement when needed)."
+prompt_file = "roles/sisyphus/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = false
+allows_collab_tools = true
+
+[roles.prometheus-fast]
+kind = "primary"
+label = "prometheus (fast)"
+description = "Plan-only agent. Produces an executable markdown plan; no code changes."
+prompt_file = "roles/prometheus/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.prometheus-normal]
+kind = "primary"
+label = "prometheus (normal)"
+description = "Plan-only agent. Produces an executable markdown plan; no code changes."
+prompt_file = "roles/prometheus/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.prometheus-heavy]
+kind = "primary"
+label = "prometheus (heavy)"
+description = "Plan-only agent. Produces an executable markdown plan; no code changes."
+prompt_file = "roles/prometheus/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.sisyphus-junior-fast]
+kind = "spawnable"
+label = "sisyphus-junior (fast)"
+description = "Focused executor (writes code; runs commands; research-only delegation)."
+prompt_file = "roles/sisyphus-junior/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = false
+allows_collab_tools = true
+
+[roles.sisyphus-junior-normal]
+kind = "spawnable"
+label = "sisyphus-junior (normal)"
+description = "Focused executor (writes code; runs commands; research-only delegation)."
+prompt_file = "roles/sisyphus-junior/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = false
+allows_collab_tools = true
+
+[roles.sisyphus-junior-heavy]
+kind = "spawnable"
+label = "sisyphus-junior (heavy)"
+description = "Focused executor (writes code; runs commands; research-only delegation)."
+prompt_file = "roles/sisyphus-junior/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = false
+allows_collab_tools = true
+
+[roles.metis-fast]
+kind = "spawnable"
+label = "metis (fast)"
+description = "Pre-planning gap finder. Identifies risks, missing info, and planning guardrails (read-only)."
+prompt_file = "roles/metis/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.metis-normal]
+kind = "spawnable"
+label = "metis (normal)"
+description = "Pre-planning gap finder. Identifies risks, missing info, and planning guardrails (read-only)."
+prompt_file = "roles/metis/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.metis-heavy]
+kind = "spawnable"
+label = "metis (heavy)"
+description = "Pre-planning gap finder. Identifies risks, missing info, and planning guardrails (read-only)."
+prompt_file = "roles/metis/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.momus-fast]
+kind = "spawnable"
+label = "momus (fast)"
+description = "Practical plan reviewer. Finds only blocking issues; read-only."
+prompt_file = "roles/momus/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.momus-normal]
+kind = "spawnable"
+label = "momus (normal)"
+description = "Practical plan reviewer. Finds only blocking issues; read-only."
+prompt_file = "roles/momus/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.momus-heavy]
+kind = "spawnable"
+label = "momus (heavy)"
+description = "Practical plan reviewer. Finds only blocking issues; read-only."
+prompt_file = "roles/momus/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.oracle-fast]
+kind = "spawnable"
+label = "oracle (fast)"
+description = "Read-only consultation agent for hard debugging and architecture."
+prompt_file = "roles/oracle/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.oracle-normal]
+kind = "spawnable"
+label = "oracle (normal)"
+description = "Read-only consultation agent for hard debugging and architecture."
+prompt_file = "roles/oracle/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.oracle-heavy]
+kind = "spawnable"
+label = "oracle (heavy)"
+description = "Read-only consultation agent for hard debugging and architecture."
+prompt_file = "roles/oracle/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.ruler-fast]
+kind = "spawnable"
+label = "ruler (fast)"
+description = "Read-only evidence adjudicator for multi-agent claim verification."
+prompt_file = "roles/ruler/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.ruler-normal]
+kind = "spawnable"
+label = "ruler (normal)"
+description = "Read-only evidence adjudicator for multi-agent claim verification."
+prompt_file = "roles/ruler/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.ruler-heavy]
+kind = "spawnable"
+label = "ruler (heavy)"
+description = "Read-only evidence adjudicator for multi-agent claim verification."
+prompt_file = "roles/ruler/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.librarian-fast]
+kind = "spawnable"
+label = "librarian (fast)"
+description = "External docs/OSS research agent (evidence-first; read-only)."
+prompt_file = "roles/librarian/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.librarian-normal]
+kind = "spawnable"
+label = "librarian (normal)"
+description = "External docs/OSS research agent (evidence-first; read-only)."
+prompt_file = "roles/librarian/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.librarian-heavy]
+kind = "spawnable"
+label = "librarian (heavy)"
+description = "External docs/OSS research agent (evidence-first; read-only)."
+prompt_file = "roles/librarian/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.explore-fast]
+kind = "spawnable"
+label = "explore (fast)"
+description = "Read-only codebase search agent (find files/patterns fast)."
+prompt_file = "roles/explore/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.explore-normal]
+kind = "spawnable"
+label = "explore (normal)"
+description = "Read-only codebase search agent (find files/patterns fast)."
+prompt_file = "roles/explore/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.explore-heavy]
+kind = "spawnable"
+label = "explore (heavy)"
+description = "Read-only codebase search agent (find files/patterns fast)."
+prompt_file = "roles/explore/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.multimodal-looker-fast]
+kind = "spawnable"
+label = "multimodal-looker (fast)"
+description = "Read-only media interpretation agent for PDFs/images/diagrams."
+prompt_file = "roles/multimodal-looker/fast.md"
+model = "gpt-5.3-codex"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.multimodal-looker-normal]
+kind = "spawnable"
+label = "multimodal-looker (normal)"
+description = "Read-only media interpretation agent for PDFs/images/diagrams."
+prompt_file = "roles/multimodal-looker/normal.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[roles.multimodal-looker-heavy]
+kind = "spawnable"
+label = "multimodal-looker (heavy)"
+description = "Read-only media interpretation agent for PDFs/images/diagrams."
+prompt_file = "roles/multimodal-looker/heavy.md"
+model = "gpt-5.2"
+reasoning_effort = "xhigh"
+read_only = true
+allows_collab_tools = false
+
+[categories.quick]
+label = "quick"
+prompt_append_file = "categories/quick.md"
+
+[categories.deep]
+label = "deep"
+prompt_append_file = "categories/deep.md"
+
+[categories.ultrabrain]
+label = "ultrabrain"
+prompt_append_file = "categories/ultrabrain.md"
+
+[categories.artistry]
+label = "artistry"
+prompt_append_file = "categories/artistry.md"
+
+[categories.writing]
+label = "writing"
+prompt_append_file = "categories/writing.md"
+
+[categories.visual-engineering]
+label = "visual-engineering"
+prompt_append_file = "categories/visual-engineering.md"
+
+[categories.unspecified-high]
+label = "unspecified-high"
+prompt_append_file = "categories/unspecified-high.md"
+
+[categories.unspecified-low]
+label = "unspecified-low"
+prompt_append_file = "categories/unspecified-low.md"

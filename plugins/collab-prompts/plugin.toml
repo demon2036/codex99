@@ -1,0 +1,9 @@
+[plugin]
+id = "collab-prompts"
+
+[collaboration_modes.heavy]
+prompt_file = "collaboration_modes/heavy.md"
+
+[collaboration_modes.heavy_plan]
+prompt_file = "collaboration_modes/heavy_plan.md"
+
