@@ -934,47 +934,61 @@ impl App {
             return Ok(());
         }
 
-        let Some(path) = self.chat_widget.rollout_path() else {
-            self.chat_widget.add_error_message(
-                "Current session is not ready to switch agent roles yet.".to_string(),
-            );
-            return Ok(());
-        };
-
         let mut config = self.config.clone();
         config.agent_role = Some(role_id.clone());
         self.apply_runtime_policy_overrides(&mut config);
 
-        match self
-            .server
-            .fork_thread(usize::MAX, config.clone(), path.clone())
-            .await
-        {
-            Ok(forked) => {
+        let rollout_path = self.chat_widget.rollout_path();
+        let existing_rollout_path = rollout_path.as_ref().filter(|path| path.exists()).cloned();
+
+        let switched = if let Some(path) = existing_rollout_path.clone() {
+            self.server
+                .fork_thread(usize::MAX, config.clone(), path)
+                .await
+                .map(|forked| (forked.thread, forked.session_configured, true))
+        } else {
+            self.server
+                .start_thread(config.clone())
+                .await
+                .map(|started| (started.thread, started.session_configured, false))
+        };
+
+        match switched {
+            Ok((thread, session_configured, preserved_history)) => {
                 self.shutdown_current_thread().await;
                 self.config = config;
                 let init =
                     self.chatwidget_init_for_forked_or_resumed_thread(tui, self.config.clone());
                 self.chat_widget =
-                    ChatWidget::new_from_existing(init, forked.thread, forked.session_configured);
+                    ChatWidget::new_from_existing(init, thread, session_configured);
                 let model_display = role_model.unwrap_or_else(|| "inherited".to_string());
                 let reasoning_display = role_reasoning_effort
                     .map(|effort| effort.to_string())
                     .unwrap_or_else(|| "inherited".to_string());
+                let detail = if preserved_history {
+                    format!("Model: {model_display} • reasoning: {reasoning_display}")
+                } else {
+                    format!(
+                        "Started a fresh session (no saved turns yet). Model: {model_display} • reasoning: {reasoning_display}"
+                    )
+                };
                 self.chat_widget.add_info_message(
                     format!("Switched agent role to {role_id}."),
-                    Some(format!(
-                        "Model: {model_display} • reasoning: {reasoning_display}"
-                    )),
+                    Some(detail),
                 );
                 self.reset_thread_event_state();
                 tui.frame_requester().schedule_frame();
             }
             Err(err) => {
-                let path_display = path.display();
-                self.chat_widget.add_error_message(format!(
-                    "Failed to switch agent role to {role_id} (from {path_display}): {err}"
-                ));
+                if let Some(path) = existing_rollout_path {
+                    let path_display = path.display();
+                    self.chat_widget.add_error_message(format!(
+                        "Failed to switch agent role to {role_id} (from {path_display}): {err}"
+                    ));
+                } else {
+                    self.chat_widget
+                        .add_error_message(format!("Failed to switch agent role to {role_id}: {err}"));
+                }
             }
         }
 
