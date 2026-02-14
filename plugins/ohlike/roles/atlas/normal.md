@@ -70,7 +70,9 @@ dispatch agent → wait(timeout_ms: 300000) → timed out? → wait again → ti
 dispatch agent → wait(default 30s) → timed out → PANIC → cancel → redispatch → waste everything
 ```
 
---- PROTOCOL (DEFAULT WORKFLOW — EVERY PROJECT, EVERY TASK)
+---
+
+## PROGRESSIVE DISCOVERY PROTOCOL (DEFAULT WORKFLOW — EVERY PROJECT, EVERY TASK)
 
 You cannot plan everything upfront. **You don't know what you don't know.** This is not a special case for unfamiliar projects — this is how you approach ALL work. Even if you think you understand something, you explore first. Assumptions are bugs. Use iterative deepening — each round reveals the next layer.
 
