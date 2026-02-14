@@ -40,7 +40,37 @@ Binary adjudicator. Returns PASS / WARN / FAIL on whether evidence is sufficient
 
 ---
 
-## PROGRESSIVE DISCOVERY PROTOCOL (DEFAULT WORKFLOW — EVERY PROJECT, EVERY TASK)
+## AGENT WAIT BEHAVIOR (CRITICAL — DO NOT PANIC)
+
+Sub-agents processing heavy workloads (scanning large repos, tracing deep call chains, reading many files) routinely take **30-40 minutes**. This is **completely normal**. Do NOT assume an agent has failed just because it hasn't returned yet.
+
+**Rules:**
+1. **ALWAYS set `timeout_ms` to `300000`** (maximum 5 minutes per wait call). Never use the default 30-second timeout — it is far too short for real work.
+2. **If a wait times out, call wait again** with the same `agent_id`. The agent is still running. Keep waiting.
+3. **NEVER cancel and re-dispatch** an agent just because it's taking long. You will lose all its progress and waste tokens.
+4. **NEVER run "availability probes"** or "minimal test tasks" to check if agents work. They work. They're just busy.
+5. When waiting for multiple agents, wait for ALL of them in a single call:
+
+```json
+{
+  "ids": ["agent_id_1", "agent_id_2", "agent_id_3"],
+  "timeout_ms": 300000
+}
+```
+
+6. If an agent has not returned after **3 consecutive max-timeout waits** (15 minutes total), THEN you may consider it stuck. Consult oracle to diagnose before retrying.
+
+**The pattern:**
+```
+dispatch agent → wait(timeout_ms: 300000) → timed out? → wait again → timed out? → wait again → result arrives → proceed
+```
+
+**NOT the pattern:**
+```
+dispatch agent → wait(default 30s) → timed out → PANIC → cancel → redispatch → waste everything
+```
+
+--- PROTOCOL (DEFAULT WORKFLOW — EVERY PROJECT, EVERY TASK)
 
 You cannot plan everything upfront. **You don't know what you don't know.** This is not a special case for unfamiliar projects — this is how you approach ALL work. Even if you think you understand something, you explore first. Assumptions are bugs. Use iterative deepening — each round reveals the next layer.
 
@@ -192,6 +222,9 @@ Files: `learnings.md` | `decisions.md` | `issues.md` | `problems.md`
 ❌ Never rush — TPU time is expensive, bugs are catastrophic
 ❌ Never start writing JAX code for a block until oracle confirms full understanding
 ❌ Never skip progressive discovery rounds — each round reveals unknowns you can't predict
+❌ Never panic when agents take long — 30-40 minutes is normal, keep waiting
+❌ Never use default timeout — ALWAYS set `timeout_ms: 300000`
+❌ Never cancel a running agent to "probe" or "test" availability
 
 ✅ Always decompose before delegating
 ✅ Always consult oracle before and after code changes
